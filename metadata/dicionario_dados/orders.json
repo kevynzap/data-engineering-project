@@ -1,0 +1,42 @@
+{
+  "tabela": "pedidos",
+  "camada": "silver",
+  "descricao": "Tabela de pedidos realizados pelos usuários",
+  "colunas": [
+    {
+      "nome": "id_pedido",
+      "tipo": "int",
+      "descricao": "Identificador do pedido"
+    },
+    {
+      "nome": "id_usuario",
+      "tipo": "int",
+      "descricao": "Identificador do usuário"
+    },
+    {
+      "nome": "tipo_conjunto",
+      "tipo": "string",
+      "descricao": "Tipo do conjunto de dados (prior, train, test)"
+    },
+    {
+      "nome": "numero_pedido_usuario",
+      "tipo": "int",
+      "descricao": "Número sequencial do pedido do usuário"
+    },
+    {
+      "nome": "dia_semana",
+      "tipo": "int",
+      "descricao": "Dia da semana (0 = domingo)"
+    },
+    {
+      "nome": "hora_dia",
+      "tipo": "int",
+      "descricao": "Hora do dia"
+    },
+    {
+      "nome": "dias_desde_ultimo_pedido",
+      "tipo": "double",
+      "descricao": "Dias desde o último pedido"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "tabela": "departamentos",
+  "camada": "silver",
+  "descricao": "Tabela de departamentos de produtos",
+  "colunas": [
+    {
+      "nome": "id_departamento",
+      "tipo": "int",
+      "descricao": "Identificador único do departamento"
+    },
+    {
+      "nome": "nome_departamento",
+      "tipo": "string",
+      "descricao": "Nome do departamento"
+    }
+  ]
+}

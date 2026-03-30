@@ -1,0 +1,27 @@
+{
+  "tabela": "produtos",
+  "camada": "silver",
+  "descricao": "Tabela de produtos disponíveis para compra",
+  "colunas": [
+    {
+      "nome": "id_produto",
+      "tipo": "int",
+      "descricao": "Identificador do produto"
+    },
+    {
+      "nome": "nome_produto",
+      "tipo": "string",
+      "descricao": "Nome do produto"
+    },
+    {
+      "nome": "id_corredor",
+      "tipo": "int",
+      "descricao": "Identificador do corredor"
+    },
+    {
+      "nome": "id_departamento",
+      "tipo": "int",
+      "descricao": "Identificador do departamento"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "tabela": "corredores",
+  "camada": "silver",
+  "descricao": "Tabela de corredores de produtos",
+  "colunas": [
+    {
+      "nome": "id_corredor",
+      "tipo": "int",
+      "descricao": "Identificador único do corredor"
+    },
+    {
+      "nome": "nome_corredor",
+      "tipo": "string",
+      "descricao": "Nome do corredor"
+    }
+  ]
+}

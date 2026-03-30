@@ -1,0 +1,34 @@
+.git
+.env
+.DS_Store
+airflow_settings.yaml
+__pycache__/
+astro
+.venv
+airflow-webserver.pid
+webserver_config.py
+airflow.cfg
+airflow.db
+output_data
+dag_test
+input_data
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Airflow
+logs/
+*.log
+
+# Dados
+*.csv
+*.parquet
+*.zip
+
+# Spark / outputs
+outputs/
+tmp/
+*.tgz
+spark-*

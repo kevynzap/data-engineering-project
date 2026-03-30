@@ -1,0 +1,27 @@
+{
+  "tabela": "itens_pedido",
+  "camada": "silver",
+  "descricao": "Tabela de itens por pedido, contendo os produtos comprados em cada pedido",
+  "colunas": [
+    {
+      "nome": "id_pedido",
+      "tipo": "int",
+      "descricao": "Identificador do pedido"
+    },
+    {
+      "nome": "id_produto",
+      "tipo": "int",
+      "descricao": "Identificador do produto"
+    },
+    {
+      "nome": "ordem_adicao_carrinho",
+      "tipo": "int",
+      "descricao": "Ordem em que o item foi adicionado ao carrinho"
+    },
+    {
+      "nome": "flag_recompra",
+      "tipo": "boolean",
+      "descricao": "Indica se o produto já foi comprado anteriormente"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+services:
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+      - ./minio_data:/data
+    networks:
+      - airflow
+
+  postgres_source:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: source
+      POSTGRES_PASSWORD: source
+      POSTGRES_DB: source_db
+    networks:
+      - airflow
+  
+  spark-master:
+    image: spark:4.1.1
+    container_name: spark-master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    environment:
+      - SPARK_MASTER_HOST=spark-master
+    ports:
+      - "7077:7077"
+      - "8081:8080"
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+    networks:
+      - airflow
+  
+  spark-worker:
+    image: spark:4.1.1
+    container_name: spark-worker
+    command: >
+      bash -c "
+      sleep 10 &&
+      /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+      "
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_DIR=/tmp/spark-work
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+    depends_on:
+      - spark-master
+    networks:
+      - airflow
+  
+  # indicar para o airflow-cli o caminho dos scripts
+  scheduler:
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+
+  triggerer:
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+
+  api-server:
+    volumes:
+      - ./spark_jobs:/opt/spark_jobs
+      - ./input_data:/opt/airflow/input_data
+      - ./output_data:/opt/airflow/output_data
+
+networks:
+  airflow:
+    external: true
+    name: data-lab
