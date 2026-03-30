@@ -10,7 +10,7 @@ webserver_config.py
 airflow.cfg
 airflow.db
 output_data
-dag_test
+dags_test
 input_data
 
 # Python
