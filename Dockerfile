@@ -7,17 +7,30 @@ RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
     apt-get clean
 
-# instalacao do spark 4.1.1 baixado
-COPY spark-4.1.1-bin-hadoop3.tgz /tmp/
+## instalacao do spark 4.1.1 baixado
+#COPY spark-4.1.1-bin-hadoop3.tgz /tmp/
+#
+#RUN tar -xzf /tmp/spark-4.1.1-bin-hadoop3.tgz -C /opt/ && \
+#    mv /opt/spark-4.1.1-bin-hadoop3 /opt/spark
 
-RUN tar -xzf /tmp/spark-4.1.1-bin-hadoop3.tgz -C /opt/ && \
-    mv /opt/spark-4.1.1-bin-hadoop3 /opt/spark
+# variaveis
+ENV SPARK_VERSION=4.1.1
+ENV HADOOP_VERSION=3
+
+# baixar e instalar spark
+RUN curl -fSL --retry 5 --retry-delay 5 \
+    -o /tmp/spark.tgz \
+    https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar -xzf /tmp/spark.tgz -C /opt/ && \
+    mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
+    rm /tmp/spark.tgz
 
 # dependencias do s3a do minIO
 ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.4.3/hadoop-aws-3.4.3.jar /opt/spark/jars/
 ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.797/aws-java-sdk-bundle-1.12.797.jar /opt/spark/jars/
 
-
+# variaveis de ambiente
+ENV SPARK_HOME=/opt/spark
 ENV PATH="/opt/spark/bin:${PATH}"
 
 USER astro
