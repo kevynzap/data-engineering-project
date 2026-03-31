@@ -28,7 +28,7 @@ departments = (
 # escrever arquivo no minio
 (
     departments.write
-    .mode("overwrite")
+    .mode("append")
     .parquet("s3a://bronze/departments/")
 )
 

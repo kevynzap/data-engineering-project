@@ -28,7 +28,7 @@ order_products = (
 # escrever arquivo no minio
 (
     order_products.write
-    .mode("overwrite")
+    .mode("append")
     .parquet("s3a://bronze/order_products/")
 )
 

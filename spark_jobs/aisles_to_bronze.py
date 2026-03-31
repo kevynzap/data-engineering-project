@@ -30,7 +30,7 @@ aisles = (
 (
     aisles.write
     .format("parquet")
-    .mode("overwrite")
+    .mode("append")
     .save("s3a://bronze/aisles/")
 )
 
