@@ -1,0 +1,8 @@
+{
+  "forwardPorts": [8080, 6563, 9000, 9001, 8081],
+  "portsAttributes": {
+    "8080": { "label": "Airflow UI", "onAutoForward": "openBrowser" },
+    "9001": { "label": "MinIO Console" },
+    "8081": { "label": "Spark UI" }
+  }
+}
