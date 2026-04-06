@@ -1,4 +1,5 @@
-FROM astrocrpublic.azurecr.io/runtime:3.1-14
+FROM astrocrpublic.azurecr.io/astronomer/astro-runtime:11.7.0
+#astrocrpublic.azurecr.io/runtime:3.1-14
 
 USER root
 
