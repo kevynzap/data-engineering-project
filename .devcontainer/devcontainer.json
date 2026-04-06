@@ -4,5 +4,6 @@
     "8080": { "label": "Airflow UI", "onAutoForward": "openBrowser" },
     "9001": { "label": "MinIO Console" },
     "8081": { "label": "Spark UI" }
-  }
+  },
+  "postCreateCommand": "curl -sSL https://install.astronomer.io | sudo bash"
 }
