@@ -23,14 +23,18 @@ aisles = (
 # adicionando data de carga
 aisles = (
     aisles
-    .withColumn("dt_carga", lit(datetime.now().strftime("%Y-%m-%d")))
+    #.withColumn("dt_carga", lit(datetime.now().strftime("%Y-%m-%d")))
 )
+
+print("Leitura OK")
+aisles.show(5)
 
 # escrever arquivo particionado anomes
 (
     aisles.write
     .format("parquet")
     .mode("append")
+    .option("inferSchema", "false")
     .save("s3a://bronze/aisles/")
 )
 

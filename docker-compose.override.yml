@@ -26,7 +26,7 @@ services:
       - airflow
   
   spark-master:
-    image: spark:4.1.1
+    image: spark:3.5.1 #4.1.1
     container_name: spark-master
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     environment:
@@ -42,7 +42,7 @@ services:
       - airflow
   
   spark-worker:
-    image: spark:4.1.1
+    image: spark:3.5.1 #4.1.1
     container_name: spark-worker
     command: >
       bash -c "

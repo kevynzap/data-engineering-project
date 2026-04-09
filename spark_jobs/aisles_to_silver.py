@@ -25,9 +25,9 @@ aisles = (
         }
     )
     .select(
-        #col("id_corredor"), 
-        #lower(trim(col("corredor"))).alias("corredor"),
-        col("dt_carga")
+        col("id_corredor"), 
+        lower(trim(col("corredor"))).alias("corredor")
+        #col("dt_carga")
     )
 )
 
