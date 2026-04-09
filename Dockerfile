@@ -30,6 +30,7 @@ RUN curl -fSL --retry 5 --retry-delay 5 \
 ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar /opt/spark/jars/
 ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.797/aws-java-sdk-bundle-1.12.797.jar /opt/spark/jars/
 
+# permissao para o astro na root
 RUN chown -R astro:astro /opt/spark && \
     chmod -R 755 /opt/spark
 
