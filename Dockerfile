@@ -31,8 +31,7 @@ ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws
 ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.797/aws-java-sdk-bundle-1.12.797.jar /opt/spark/jars/
 
 # permissao para o astro na root
-RUN chown -R astro:astro /opt/spark && \
-    chmod -R 755 /opt/spark
+RUN chown -R astro:astro /opt/spark && chmod -R 755 /opt/spark
 
 # variaveis de ambiente
 ENV SPARK_HOME=/opt/spark
