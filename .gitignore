@@ -24,15 +24,17 @@ logs/
 # Dados
 *.csv
 *.parquet
-*.zip
+#*.zip
 
 # Spark / outputs
 outputs/
 tmp/
 *.tgz
-spark-*
+#spark-*
 
-minio_data/
+# minio
+*.meta
+minio_data/.minio.sys/
 minio_data/.minio.sys/buckets/.bloomcycle.bin/xl.meta
 minio_data/.minio.sys/buckets/.usage-cache.bin/xl.meta
 minio_data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta
