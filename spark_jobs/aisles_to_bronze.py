@@ -31,6 +31,7 @@ aisles = (
     aisles.write
     .format("parquet")
     .mode("append")
+    .option("inferSchema", "false")
     .save("s3a://bronze/aisles/")
 )
 

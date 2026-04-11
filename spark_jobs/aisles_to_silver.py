@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
+from delta.tables import DeltaTable
 
 # criando uma sessao sparksession
 spark = (
@@ -7,6 +8,9 @@ spark = (
     .appName("Ailes_Silver")
     .getOrCreate()
 )
+
+# variaveis
+path = "s3a://silver/aisles/"
 
 # leitura do arquivo parquet na bronze
 aisles = (
@@ -31,13 +35,34 @@ aisles = (
     )
 )
 
-# save do silver
-(
-    aisles.write
-    .format("parquet")
-    .mode("overwrite")
-    .save("s3a://silver/aisles/")
-)
+# verifica se a tabela já existe
+if DeltaTable.isDeltaTable(spark, path):
+    
+    delta_table = DeltaTable.forPath(spark, path)
+
+    (
+        delta_table.alias("target")
+        .merge(
+            aisles.alias("source"),
+            "target.id_corredor = source.id_corredor"
+        )
+        .whenMatchedUpdate(
+            condition="target.corredor != source.corredor",
+            set={
+                "corredor": "source.corredor",
+                "dt_carga": "source.dt_carga"
+            }
+        )
+        .whenNotMatchedInsertAll()
+        .execute()
+    )
+else:
+    (
+        aisles.write
+        .format("delta")
+        .mode("overwrite")
+        .save("s3a://silver/aisles/")
+    )
 
 # encerrando sparksession
 spark.stop()
