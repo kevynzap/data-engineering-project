@@ -13,15 +13,20 @@ secret_key = Variable.get("minio_secret")
 config = {
     "spark.master": "spark://spark-master:7077",
 
-    "spark.jars.packages": ",".join([
-        "org.apache.hadoop:hadoop-aws:3.3.4",
-        "com.amazonaws:aws-java-sdk-bundle:1.12.262",
-        "io.delta:delta-spark_2.12:3.1.0"
+    #"spark.jars.packages": ",".join([
+    #    "org.apache.hadoop:hadoop-aws:3.3.4",
+    #    "com.amazonaws:aws-java-sdk-bundle:1.12.262",
+    #    "io.delta:delta-spark_2.12:3.1.0"
+    #]),
+    "spark.jars": ",".join([
+        "/opt/spark/jars/hadoop-aws-3.3.4.jar",
+        "/opt/spark/jars/aws-java-sdk-bundle-1.12.262.jar",
+        "/opt/spark/jars/delta-spark_2.12-3.1.0.jar",
+        "/opt/spark/jars/delta-storage-3.1.0.jar"
     ]),
     "spark.sql.extensions": "io.delta.sql.DeltaSparkSessionExtension",
     "spark.sql.catalog.spark_catalog": "org.apache.spark.sql.delta.catalog.DeltaCatalog",
 
-    #"spark.jars": "/opt/spark/jars/hadoop-aws-3.3.4.jar,/opt/spark/jars/aws-java-sdk-bundle-1.12.262.jar",
     "spark.hadoop.fs.s3a.endpoint": "http://minio:9000",
     "spark.hadoop.fs.s3a.access.key": access_key,
     "spark.hadoop.fs.s3a.secret.key": secret_key,

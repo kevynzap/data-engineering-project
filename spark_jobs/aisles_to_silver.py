@@ -49,8 +49,7 @@ if DeltaTable.isDeltaTable(spark, path):
         .whenMatchedUpdate(
             condition="target.corredor != source.corredor",
             set={
-                "corredor": "source.corredor",
-                "dt_carga": "source.dt_carga"
+                "corredor": "source.corredor"
             }
         )
         .whenNotMatchedInsertAll()
@@ -61,6 +60,7 @@ else:
         aisles.write
         .format("delta")
         .mode("overwrite")
+        .option("mergeSchema", "true")
         .save("s3a://silver/aisles/")
     )
 
