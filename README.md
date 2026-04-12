@@ -58,11 +58,9 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 ```
 
 ## Arquitetura
-CSV (raw) 
-    ↓ 
-Bronze (Parquet - dados brutos tratados minimamente) 
-    ↓ 
-Silver (Delta Lake - dados refinados e modelados)
+<p align="center">
+  <img src="images/arquitetura_dados_v2.png" width="800"/>
+</p>
 
 ### Camada Bronze
 **Objetivo:** Armazenar os dados como chegam da origem, garantindo a rastreabilidade
