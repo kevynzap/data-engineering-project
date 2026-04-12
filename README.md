@@ -23,7 +23,7 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 
 # Estrutura do repositório
 . 
-├── .astro/
+\n├── .astro/
 │ ├── config.yaml 
 │ ├── dag_integrity_exceptions.txt 
 │ ├── test_dat_integrety_default.py 
@@ -117,7 +117,7 @@ Silver (Delta Lake - dados refinados e modelados)
         - A[Bronze] --> B[Deduplicação] 
         - B --> C[Anti-Join] 
         - C --> D[Append Delta]
-    - **Porque não usar merge?: custo elevado, shuffle pesado (falha no processamento), merge desnecessário
+    - **Porque não usar merge?:** custo elevado, shuffle pesado (falha no processamento), merge desnecessário
 
 ## Camada Gold
 **Objetivo:** Apresentação de informações enriquecidas e analiticas para os times de negócios.
