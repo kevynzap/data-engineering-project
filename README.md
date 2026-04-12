@@ -59,7 +59,7 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 
 ## Arquitetura
 <p align="center">
-  <img src="images/arquitetura_dados_v2.png" width="800"/>
+  <img src="image/arquitetura_dados_v2.png" width="800"/>
 </p>
 
 ### Camada Bronze
