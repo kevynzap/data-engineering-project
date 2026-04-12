@@ -22,7 +22,7 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 - Modelagem de dados por camada
 
 # Estrutura do repositório
-``bash . ├── dags/ │ ├── aisles_to_bronze.py │ ├── aisles_to_silver.py │ ├── orders_to_silver.py │ └── order_products_to_silver.py │ ├── spark_jobs/ │ ├── aisles_to_silver.py │ ├── orders_to_silver.py │ └── order_products_to_silver.py │ ├── input_data/ │ └── *.csv │ ├── docker/ │ ├── Dockerfile │ └── docker-compose.override.yml │ ├── .astro/ │ ├── config.yaml │ ├── dag_integrity_exceptions.txt │ └── test_dag_integrity_default.py │ ├── .devcontainer/ │ └── devcontainer.json │ ├── plugins/ ├── spark/ ├── minio_data/ │ ├── airflow_settings.yaml ├── requirements.txt ├── .env └── .dockerignore ``` </pre>
+<pre> ``bash . ├── dags/ │ ├── aisles_to_bronze.py │ ├── aisles_to_silver.py │ ├── orders_to_silver.py │ └── order_products_to_silver.py │ ├── spark_jobs/ │ ├── aisles_to_silver.py │ ├── orders_to_silver.py │ └── order_products_to_silver.py │ ├── input_data/ │ └── *.csv │ ├── docker/ │ ├── Dockerfile │ └── docker-compose.override.yml │ ├── .astro/ │ ├── config.yaml │ ├── dag_integrity_exceptions.txt │ └── test_dag_integrity_default.py │ ├── .devcontainer/ │ └── devcontainer.json │ ├── plugins/ ├── spark/ ├── minio_data/ │ ├── airflow_settings.yaml ├── requirements.txt ├── .env └── .dockerignore ``` </pre>
 ## Arquitetura
 CSV (raw) 
     ↓ 
