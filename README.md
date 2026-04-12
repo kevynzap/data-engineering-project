@@ -23,114 +23,42 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 
 # Estrutura do repositório
 . 
+.
+├── dags/
+│   ├── aisles_to_bronze.py
+│   ├── aisles_to_silver.py
+│   ├── orders_to_silver.py
+│   └── order_products_to_silver.py
 
 ├── .astro/
-
 │ ├── config.yaml 
-
 │ ├── dag_integrity_exceptions.txt 
-
 │ ├── test_dat_integrety_default.py 
-
 │
-
 ├── .devcontainer/
-
 │ ├──devcontainer.json  
-
 │ 
-
 ├── dags/ 
-
-│ ├── aisles_to_bronze.py 
-
-│ ├── aisles_to_silver.py 
-
-│ ├── departments_to_bronze.py 
-
-│ ├── departments_to_silver.py 
-
-│ ├── fato_pedido.py 
-
-│ ├── orders_to_bronze.py 
-
-│ ├── orders_to_silver.py 
-
-│ ├── order_products_to_bronze.py 
-
-│ ├── order_products_to_silver.py
-
-│ ├── orders_to_bronze.py 
-
-│ ├── orders_to_silver.py  
-
-│ ├── products_to_bronze.py 
-
-│ ├── products_to_silver.py 
-
+│  └── *
 │
-
 ├── input_data/ 
-
-│ └── *.csv
-
+│  └── *.csv
 │
-
 ├── minio_data/ 
-
 │ 
-
 ├── plugins/ 
-
 │ 
-
 ├── spark/ 
-
-│   └── *.tgz
-
+│  └── *.tgz
 │ 
-
 ├── spark_jobs/ 
-
-│ ├── aisles_to_bronze.py 
-
-│ ├── aisles_to_silver.py 
-
-│ ├── departments_to_bronze.py 
-
-│ ├── departments_to_silver.py 
-
-│ ├── fato_pedido.py 
-
-│ ├── orders_to_bronze.py 
-
-│ ├── orders_to_silver.py 
-
-│ ├── order_products_to_bronze.py 
-
-│ ├── order_products_to_silver.py
-
-│ ├── orders_to_bronze.py 
-
-│ ├── orders_to_silver.py  
-
-│ ├── products_to_bronze.py 
-
-│ ├── products_to_silver.py 
-
+│  └── *.py 
 │
-
 │.dockerignore
-
 │.env
-
 │airflow_setting.yaml
-
 │Dockerfile 
-
-
 │docker-compose.override.yml
-
 │requirements.txt
 
 ## Arquitetura
