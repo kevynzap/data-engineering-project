@@ -1,7 +1,7 @@
 # Projeto de Data Ingestion e Storage
 
-Alunos: Kevyn Zarpellon e Matheus Eman
-RA: 10749524 e 1049523
+- Kevyn Zarpellon - RA: 10749524 
+- Matheus Eman - RA: 1049523
 ========
 
 ## Visão Geral
