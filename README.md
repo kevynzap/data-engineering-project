@@ -65,11 +65,14 @@ Silver (Delta Lake - dados refinados e modelados)
 
 ### Camada Bronze
 **Objetivo:** Armazenar os dados como chegam da origem, garantindo a rastreabilidade
-| Estratégia | Motivo | 
-| :Parquet | :Performance e compressão: |
-| :Sem deduplicação | :Preservar dado original: |
-| :Coluna dt_carga | :Controle temporal: |
-| :Controle temporal | :Facilidade de debug: |
+
+| Estratégia              | Motivo                                  |
+|------------------------|------------------------------------------|
+| Parquet                | Melhor performance que CSV              |
+| Sem deduplicação       | Preservar dado original                 |
+| Coluna dt_carga        | Controle de ingestão                    |
+| Schema próximo ao raw  | Facilidade de debug                     |
+| Particionamento futuro | Melhorar performance de leitura         |
 
 ### Camada Silver
 **Objetivo:** Transformar os dados para uso analítico com qualidade e consistência.
