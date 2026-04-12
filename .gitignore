@@ -44,4 +44,4 @@ minio_data/.minio.sys/buckets/bronze/.usage-cache.bin.bkp/xl.meta
 minio_data/.minio.sys/buckets/gold/.usage-cache.bin/xl.meta
 minio_data/.minio.sys/buckets/gold/.usage-cache.bin.bkp/xl.meta
 minio_data/.minio.sys/buckets/silver/.usage-cache.bin/xl.meta
-minio_data/.minio.sys/buckets/silver/.usage-cache.bin.bkp/xl.meta
+minio_data/.minio.sys/buckets/silver/.usage-cache.bin.bkp/xl.metaspark/*.tgz
