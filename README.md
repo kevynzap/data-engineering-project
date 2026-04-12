@@ -23,7 +23,8 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 
 # Estrutura do repositório
 . 
-\n├── .astro/
+├── .astro/
+
 │ ├── config.yaml 
 │ ├── dag_integrity_exceptions.txt 
 │ ├── test_dat_integrety_default.py 
