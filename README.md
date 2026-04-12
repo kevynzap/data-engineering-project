@@ -1,8 +1,9 @@
-# Projeto de Data Ingestion e Storage
+# Projeto de Data Collection& Storage
 
 - Kevyn Zarpellon - RA: 10749524 
 - Matheus Eman - RA: 1049523
-========
+
+===========================================================
 
 ## Visão Geral
 Este projeto tem como objetivo a construção de um pipeline de dados utilizando arquitetura Medallion (Bronze → Silver → Gold), com processamento distribuído via Apache Spark, orquestração com Apache Airflow (Astronomer) e armazenamento em MinIO (S3-compatible).
