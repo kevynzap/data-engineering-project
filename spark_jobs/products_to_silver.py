@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
+from delta.tables import DeltaTable
 
 # criando sessao sparksession
 spark = (
@@ -8,11 +9,15 @@ spark = (
     .getOrCreate()
 )
 
+# variaveis
+path_input = "s3a://bronze/products/"
+path_output = "s3a://silver/products/"
+
 # leitura do arquivo csv
 products = (
     spark.read
     .format("parquet")
-    .load("s3a://bronze/products/")
+    .load(path_input)
 )
 
 # adicionando data de carga
@@ -28,8 +33,8 @@ products = (
     )
     .withColumns(
         {
-            "id_corredor_invalid_format": when(col("id_corredor").try_cast("integer").isNull(), lit(1)).otherwise(lit(0)),
-            "id_departamento_invalid_format": when(col("id_departamento").try_cast("integer").isNull(), lit(1)).otherwise(lit(0))
+            "id_corredor_invalid_format": when(col("id_corredor").cast("integer").isNull(), lit(1)).otherwise(lit(0)),
+            "id_departamento_invalid_format": when(col("id_departamento").cast("integer").isNull(), lit(1)).otherwise(lit(0))
         }
     )
     .filter(
@@ -38,12 +43,30 @@ products = (
     )
 )
 
-# escrever arquivo no minio
-(
-    products.write
-    .mode("overwrite")
-    .parquet("s3a://silver/products/")
-)
+# verifica se a tabela ja existe
+if DeltaTable.isDeltaTable(spark, path_output):
+
+    delta_table = DeltaTable.forPath(spark, path_output)
+
+    (
+        delta_table.alias("target")
+        .merge(
+            products.alias("source"),
+            "target.id_produto = source.id_produto"
+        )
+        .whenMatchedUpdate()
+        .whenNotMatchedInsertAll()
+        .execute()
+    )
+else:
+    # escrever arquivo no minio
+    (
+        products.write
+        .format("delta")
+        .mode("overwrite")
+        .option("mergeSchema", "true")
+        .parquet(path_output)
+    )
 
 # encerrando sparksession
 spark.stop()

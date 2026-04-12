@@ -9,11 +9,18 @@ spark = (
     .getOrCreate()
 )
 
+# variaveis
+path_input = "s3a://bronze/orders/"
+path_output = "s3a://silver/orders/"
+
+# overwrite dinamico
+spark.conf.set("spark.sql.sources.partitionOverWriteMode", "dynamic")
+
 # leitura do arquivo parquet
 orders = (
     spark.read
     .format("parquet")
-    .load("s3a://bronze/orders/")
+    .load(path_input)
 )
 
 # adicionando data de carga
@@ -53,8 +60,10 @@ orders = (
 # escrever arquivo no minio
 (
     orders.write
+    .format("delta")
     .mode("overwrite")
-    .parquet("s3a://silver/orders/")
+    .partitionBy("dt_carga")
+    .parquet(path_output)
 )
 
 # encerrando sparksession

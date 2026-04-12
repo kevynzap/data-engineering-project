@@ -19,9 +19,12 @@ aisles = (
     .load("s3a://bronze/aisles/")
 )
 
+# deduplicação
+aisles_dedup = aisles.dropDuplicates(["aisle_id", "aisle"])
+
 # tratando dados
 aisles = (
-    aisles 
+    aisles_dedup 
     .withColumnsRenamed(
         {
             "aisle_id":"id_corredor",

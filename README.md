@@ -1,45 +1,151 @@
-Overview
+# Projeto de Data Ingestion e Storage
+
+Alunos: Kevyn Zarpellon e Matheus Eman
+RA: 10749524 e 1049523
 ========
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+## Visão Geral
+Este projeto tem como objetivo a construção de um pipeline de dados utilizando arquitetura Medallion (Bronze → Silver → Gold), com processamento distribuído via Apache Spark, orquestração com Apache Airflow (Astronomer) e armazenamento em MinIO (S3-compatible).
 
-Project Contents
-================
+- Bronze → dados brutos
+- Silver → dados tratados e confiáveis
+- Gold → dados analiticos e agrupados
 
-Your Astro project contains the following files and folders:
+A base de dados utilizada foi o dataset **Instacart Market Basket Analysis**, contendo informações sobre pedidos, produtos e comportamento de compra de usuários.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+O foco do projeto é simular um ambiente real de engenharia de dados, explorando estratégias como:
 
-Deploy Your Project Locally
-===========================
+- Ingestão incremental
+- Deduplicação
+- Upsert (merge)
+- Append controlado (anti-join)
+- Modelagem de dados por camada
 
-Start Airflow on your local machine by running 'astro dev start'.
+# Estrutura do repositório
+. 
+├── .astro/
+│ ├── config.yaml 
+│ ├── dag_integrity_exceptions.txt 
+│ ├── test_dat_integrety_default.py 
+│
+├── .devcontainer/
+│ ├──devcontainer.json  
+│ 
+├── dags/ 
+│ ├── aisles_to_bronze.py 
+│ ├── aisles_to_silver.py 
+│ ├── departments_to_bronze.py 
+│ ├── departments_to_silver.py 
+│ ├── fato_pedido.py 
+│ ├── orders_to_bronze.py 
+│ ├── orders_to_silver.py 
+│ ├── order_products_to_bronze.py 
+│ ├── order_products_to_silver.py
+│ ├── orders_to_bronze.py 
+│ ├── orders_to_silver.py  
+│ ├── products_to_bronze.py 
+│ ├── products_to_silver.py 
+│
+├── input_data/ 
+│ └── *.csv
+│
+├── minio_data/ 
+│ 
+├── plugins/ 
+│ 
+├── spark/ 
+│   └── *.tgz
+│ 
+├── spark_jobs/ 
+│ ├── aisles_to_bronze.py 
+│ ├── aisles_to_silver.py 
+│ ├── departments_to_bronze.py 
+│ ├── departments_to_silver.py 
+│ ├── fato_pedido.py 
+│ ├── orders_to_bronze.py 
+│ ├── orders_to_silver.py 
+│ ├── order_products_to_bronze.py 
+│ ├── order_products_to_silver.py
+│ ├── orders_to_bronze.py 
+│ ├── orders_to_silver.py  
+│ ├── products_to_bronze.py 
+│ ├── products_to_silver.py 
+│
+│.dockerignore
+│.env
+│airflow_setting.yaml
+│Dockerfile 
+│docker-compose.override.yml
+│requirements.txt
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
+## Arquitetura
+CSV (raw) 
+    ↓ 
+Bronze (Parquet - dados brutos tratados minimamente) 
+    ↓ 
+Silver (Delta Lake - dados refinados e modelados)
 
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+### Camada Bronze
+**Objetivo:** Armazenar os dados como chegam da origem, garantindo a rastreabilidade
+| Estratégia | Motivo | 
+| :Parquet | :Performance e compressão: |
+| :Sem deduplicação | :Preservar dado original: |
+| :Coluna dt_carga | :Controle temporal: |
+| :Controle temporal | :Facilidade de debug: |
 
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
+### Camada Silver
+**Objetivo:** Transformar os dados para uso analítico com qualidade e consistência.
+- **aisles**
+    - Padronização de colunas
+    - Merge (upsert)
+    - Baixo volume → custo aceitável
+- **products**
+    - Chave primária: product_id
+    - Merge para atualização de atributos
+    - Deduplicação
+- **orders:**
+    - Tratamento de nulos
+    - Criação de colunas derivadas:
+    - is_first_order
+    - nome_dia_semana
+    - Escrita inicial com overwrite
+- **order_products**
+    - Tabela fato (alto volume)
+    - Chave composta: (order_id, product_id)
+    - Estratégia adotada:
+    - flowchart LR: 
+        - A[Bronze] --> B[Deduplicação] 
+        - B --> C[Anti-Join] 
+        - C --> D[Append Delta]
+    - **Porque não usar merge?: custo elevado, shuffle pesado (falha no processamento), merge desnecessário
 
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+## Camada Gold
+**Objetivo:** Apresentação de informações enriquecidas e analiticas para os times de negócios.
 
-Deploy Your Project to Astronomer
-=================================
+## Estratégias de Carga
+- Merge (Upsert): usado em tabelas dimensionais, permite a atualização/insert dos dados → Não escalável para grandes volumes
+- Anti-Join + Append: escalável, ideal para tabelas fato, evita conflitos.
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+## Stack Tecnológica
+- Apache Spark 3.5
+- Apache Airflow → Astronomer
+- MinIO (compativel com s3)
+- Delta Lake
+- Docker
 
-Contact
-=======
+## Principais Desafios
+- Conflitos de dependência (Delta + Hadoop + AWS SDK)
+- Erros de memória → Principalmente com tabela fato
+- Merge com múltiplos matches → Por isso para cada base, foi usado uma estratégia
+- Otimização de shuffle.
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+## Aprendizados
+- Estruturação e Configuração de ambiente de dados
+- Formas diferentes de aplicação de carga → merge, append, etc.
+- Como funciona um Delta Lake internamente
+
+## Próximos Passos:
+- Estruturar camada Gold com mais dados
+- Criação de Dashboards
+- Z-Order Optimization
+- Deploy em ambiente cloud
