@@ -8,8 +8,10 @@ RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
     apt-get clean
 
-# copiar o spark local
-COPY ./spark/spark-3.5.1-bin-hadoop3.tgz /tmp/spark.tgz
+# copiar o spark local 
+#COPY ./spark/spark-3.5.1-bin-hadoop3.tgz /tmp/spark.tgz    # usado no offline
+RUN apt-get update && apt-get install -y wget && \
+    wget https://archive.apache.org/dist/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz -O /tmp/spark.tgz
 
 # extrair
 RUN tar -xzf /tmp/spark.tgz -C /opt/ && \
