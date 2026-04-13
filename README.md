@@ -58,6 +58,25 @@ O foco do projeto é simular um ambiente real de engenharia de dados, explorando
 ├── requirements.txt
 ```
 
+## Setup do Ambiente
+**Observações importantes:** para que o projeto funcione adequadamente e sem rebuild, siga os passos descritos abaixo.
+- Criação do network utilizado para conectar imagens (Airflow + Spark + minIO)
+```bash
+docker network create data-lab 
+```
+- Criação da imagem customizada com Apache Spark
+```bash
+docker build -t airflow-docker .
+```
+- Iniciar usando a imagem criada
+```bash
+astro dev start -i airflow-docker
+```
+- Quando quiser encerrar, use
+```bash
+astro dev stop
+```
+
 ## Arquitetura
 <p align="center">
   <img src="image/arquitetura_dados_v2.png" width="800"/>
