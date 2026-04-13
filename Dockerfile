@@ -34,5 +34,7 @@ RUN chown -R astro:astro /opt/spark && chmod -R 755 /opt/spark
 # variaveis de ambiente
 ENV SPARK_HOME=/opt/spark
 ENV PATH="/opt/spark/bin:${PATH}"
+#ENV PYSPARK_PYTHON=/usr/local/bin/python
+#ENV PYSPARK_DRIVER_PYTHON=/usr/local/bin/python
 
 USER astro
