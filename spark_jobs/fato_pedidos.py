@@ -12,11 +12,11 @@ spark = (
 spark.conf.set("spark.sql.shuffle.partitions", "4")
 
 # leitura do arquivo parquet na silver
-aisles = (spark.read.format("parquet").load("s3a://silver/aisles/"))
-departments = (spark.read.format("parquet").load("s3a://silver/departments/"))
-order_products = (spark.read.format("parquet").load("s3a://silver/order_products/"))
-orders = (spark.read.format("parquet").load("s3a://silver/orders/"))
-products = (spark.read.format("parquet").load("s3a://silver/products/"))
+aisles = (spark.read.format("delta").load("s3a://silver/aisles/"))
+departments = (spark.read.format("delta").load("s3a://silver/departments/"))
+order_products = (spark.read.format("delta").load("s3a://silver/order_products/"))
+orders = (spark.read.format("delta").load("s3a://silver/orders/"))
+products = (spark.read.format("delta").load("s3a://silver/products/"))
 
 
 # join tabs
