@@ -8,6 +8,8 @@
 ## Visão Geral
 Este projeto tem como objetivo a construção de um pipeline de dados utilizando arquitetura Medallion (Bronze → Silver → Gold), com processamento distribuído via Apache Spark, orquestração com Apache Airflow (Astronomer) e armazenamento em MinIO (S3-compatible).
 
+- **Fonte:** https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data/code
+
 - Bronze → dados brutos
 - Silver → dados tratados e confiáveis
 - Gold → dados analiticos e agrupados
