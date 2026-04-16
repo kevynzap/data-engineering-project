@@ -77,6 +77,24 @@ astro dev start -i airflow-docker
 astro dev stop
 ```
 
+## Configurações no Airflow
+- Em Variables, crie as seguintes variáveis:
+    - minio_access: minio
+    - minio_secret: minio123
+- Em Conections:
+    - Crie a conexão do File Sensor: 
+        - Conexão: Path
+        - nome: fs_default
+        - path: /opt/airflow
+    - Crie a conexão com o minIO:
+        - Conexão: Amazon Web Service
+        - nome: minio_conn
+        - extra: {"aws_access_key_id": "minio", "aws_secret_access_key": "minio123", "endpoint_url": "http://minio:9000"}
+    - Crie a conexão com o Spark:
+        - Conexão: Spark
+        - host: spark://spark-master
+        - port: 7077
+
 ## Arquitetura
 <p align="center">
   <img src="image/arquitetura_dados_v2.png" width="800"/>
