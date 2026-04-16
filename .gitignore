@@ -10,7 +10,8 @@
 #airflow.db
 output_data
 dags_test
-input_data
+input_data/order_products/*.csv
+input_data/orders/*.csv
 
 # Python
 __pycache__/
