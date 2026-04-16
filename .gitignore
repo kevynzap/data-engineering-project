@@ -23,7 +23,7 @@ logs/
 *.log
 
 # Dados
-*.csv
+#*.csv
 *.parquet
 #*.zip
 
